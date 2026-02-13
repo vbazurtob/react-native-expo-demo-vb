@@ -14,14 +14,19 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bazurtov87ex.reactnativeexpodemovb",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.bazurtov87ex.reactnativeexpodemovb"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,7 +36,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
@@ -44,7 +49,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5c987c7c-fd44-48be-93a7-6e928be988b5"
+        "projectId": "37c8acc0-318b-48e6-8837-31f09a0d80f2"
       }
     }
   }
