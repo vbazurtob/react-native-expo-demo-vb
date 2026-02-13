@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, View, Text } from "react-native";
-import { ThemedView } from "@/components/themed-view";
-import { Member } from "@/types/member";
+import {ScrollView, StyleSheet, View} from "react-native";
+import {ThemedView} from "@/components/themed-view";
+import {Member} from "@/types/member";
 import IdCard from "@/components/ui/id-card";
 
 const members: Member[] = [

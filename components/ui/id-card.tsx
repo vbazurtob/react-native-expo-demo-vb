@@ -1,7 +1,11 @@
-import { StyleSheet, useColorScheme, View, Text } from "react-native";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { Member } from "@/types/member.ts";
+import {StyleSheet, useColorScheme, View} from "react-native";
+import {ThemedText} from "@/components/themed-text";
+import {ThemedView} from "@/components/themed-view";
+import {Member} from "@/types/member";
+
+type IdCardProps = {
+    member: Member;
+}
 
 const avatarSize = 50;
 const avatarColors =  [
@@ -12,7 +16,7 @@ const avatarColors =  [
     '#BDE0FE', // blue
 ];
 
-const IdCard = ( props ) => {
+const IdCard = (props: IdCardProps) => {
     const { member } = props;
     const colorScheme = useColorScheme();
     const randomColorIdx = Math.floor(Math.random() * (avatarColors.length - 1) );
