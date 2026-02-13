@@ -38,7 +38,7 @@ type IconSymbolName = keyof typeof MAPPING;
 const MAPPING = {
   "person.crop.square": "badge",
   "house.fill": "home",
-  "paperplane.fill": "send",
+  "tray.and.arrow.down.fill": "rss-feed",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
 } as IconMapping;

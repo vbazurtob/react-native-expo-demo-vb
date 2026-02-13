@@ -50,7 +50,7 @@ export default function TabLayout() {
         options={{
           title: "News",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="tray.and.arrow.down.fill" color={color} />
           ),
         }}
       />
