@@ -18,4 +18,4 @@
  * By accessing this portfolio, you agree to abide by these terms.
  */
 
-export { useColorScheme } from 'react-native';
+export { useColorScheme } from "react-native";
