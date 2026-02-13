@@ -22,7 +22,7 @@ the White House.
 
 *Cards* and *News* tabs functionality being demonstrated
 
-<img src="https://github.com/user-attachments/assets/193210fb-0745-405c-b539-76d16fc1072b"  width="240" height="500">
+<img alt="app_demo" src="https://github.com/user-attachments/assets/193210fb-0745-405c-b539-76d16fc1072b"  width="240" height="500">
 
 
 
