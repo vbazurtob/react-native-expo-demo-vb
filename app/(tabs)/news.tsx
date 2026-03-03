@@ -23,8 +23,11 @@ import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import * as Linking from "expo-linking";
+import { useDispatch, useSelector } from "react-redux";
+import { loadNews } from "@/redux/news-slice";
+import { selectNews } from "@/selectors/news-selector";
 
-type NewsItem = {
+export type NewsItem = {
   title: string;
   link: string;
   description: string;
@@ -32,50 +35,6 @@ type NewsItem = {
 };
 
 const newsOrigin = "https://www.whitehouse.gov/news/feed/";
-
-// Pure JavaScript RSS/XML parser using regex (no dependencies needed)
-function parseRSSFeed(rssText: string): NewsItem[] {
-  const items: NewsItem[] = [];
-
-  // Match all <item> blocks in the RSS feed
-  const itemRegex = /<item[^>]*>([\s\S]*?)<\/item>/gi;
-  const itemsMatch = rssText.matchAll(itemRegex);
-
-  for (const itemMatch of itemsMatch) {
-    const itemContent = itemMatch[1];
-
-    // Extract title
-    const titleMatch = itemContent.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-    const title = titleMatch
-      ? titleMatch[1].replace(/<!\[CDATA\[(.*?)\]\]>/gi, "$1").trim()
-      : "";
-
-    // Extract link
-    const linkMatch = itemContent.match(/<link[^>]*>([\s\S]*?)<\/link>/i);
-    const link = linkMatch ? linkMatch[1].trim() : "";
-
-    // Extract description
-    const descMatch = itemContent.match(
-      /<description[^>]*>([\s\S]*?)<\/description>/i,
-    );
-    const description = descMatch
-      ? descMatch[1]
-          .replace(/<!\[CDATA\[(.*?)\]\]>/gi, "$1")
-          .replace(/<[^>]+>/g, "")
-          .trim()
-      : "";
-
-    // Extract pubDate
-    const dateMatch = itemContent.match(/<pubDate[^>]*>([\s\S]*?)<\/pubDate>/i);
-    const pubDate = dateMatch ? dateMatch[1].trim() : "";
-
-    if (title) {
-      items.push({ title, link, description, pubDate });
-    }
-  }
-
-  return items;
-}
 
 function formatDate(dateString: string): string {
   try {
@@ -131,32 +90,17 @@ async function openLink(link: string) {
 export default function NewsScreen() {
   const [isLoading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
 
-  async function loadNews() {
-    try {
-      setLoading(true);
-      setLoadError(null);
-      const response = await fetch(newsOrigin);
-      if (response.ok) {
-        const rssText = await response.text();
-        const parsedItems = parseRSSFeed(rssText);
-        setNewsItems(parsedItems);
-      } else {
-        setLoadError(`HTTP Error: ${response.status}`);
-      }
-    } catch (eFetch) {
-      console.log(eFetch);
-      setLoadError(
-        eFetch instanceof Error ? eFetch.message : "Failed to load news",
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
+  const newsItems = useSelector(selectNews) ;
+  const dispatch = useDispatch();
+
+  const loadNewsUI = () => {
+    // @ts-ignore
+    return dispatch(loadNews());
+  };
 
   useEffect(() => {
-    loadNews();
+    loadNewsUI();
   }, []);
 
   return (
@@ -165,7 +109,7 @@ export default function NewsScreen() {
         <ThemedText style={styles.headerTitle}>News</ThemedText>
         <TouchableOpacity
           style={styles.reloadButton}
-          onPress={loadNews}
+          onPress={loadNewsUI}
           disabled={isLoading}
         >
           <ThemedText style={styles.reloadButtonText}>
@@ -194,7 +138,7 @@ export default function NewsScreen() {
             </ThemedText>
           </ThemedView>
         )}
-        {newsItems.map((item, index) => (
+        {newsItems.map && newsItems.map((item: NewsItem, index : number ) => (
           <TouchableOpacity key={index} onPress={() => openLink(item.link)}>
             <ThemedView style={styles.newsItem}>
               <ThemedText style={styles.newsHeader}>{item.title}</ThemedText>

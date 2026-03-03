@@ -18,29 +18,7 @@
  * By accessing this portfolio, you agree to abide by these terms.
  */
 
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { Provider } from 'react-redux'
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
-import store from "./store"
 
-import { useColorScheme } from "@/hooks/use-color-scheme";
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
-  return (<Provider store={store}>
-    <ThemeProvider  value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-    </Provider>
-  );
-}
+export const selectNews =
+    (state) => state.news.news ?? [];
