@@ -89,6 +89,7 @@ const style = StyleSheet.create({
   AvatarText: {
     fontSize: 30,
     textAlign: "center",
+    color: "black",
   },
   AvatarCircle: {
     width: avatarSize,
