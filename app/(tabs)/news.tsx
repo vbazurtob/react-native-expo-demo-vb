@@ -18,23 +18,21 @@
  * By accessing this portfolio, you agree to abide by these terms.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import * as Linking from "expo-linking";
 import { useDispatch, useSelector } from "react-redux";
 import { loadNews } from "@/redux/news-slice";
-import { selectNews } from "@/selectors/news-selector";
+import {selectNews, selectNewsErrorLoading, selectNewsLoading} from "@/selectors/news-selector";
 
-export type NewsItem = {
+export type NewsArticle = {
   title: string;
   link: string;
   description: string;
   pubDate: string;
 };
-
-const newsOrigin = "https://www.whitehouse.gov/news/feed/";
 
 function formatDate(dateString: string): string {
   try {
@@ -88,10 +86,9 @@ async function openLink(link: string) {
 }
 
 export default function NewsScreen() {
-  const [isLoading, setLoading] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
-
-  const newsItems = useSelector(selectNews) ;
+  const newsArticles = useSelector(selectNews) ;
+  const isLoading = useSelector(selectNewsLoading)
+  const loadError = useSelector(selectNewsErrorLoading)
   const dispatch = useDispatch();
 
   const loadNewsUI = () => {
@@ -119,28 +116,28 @@ export default function NewsScreen() {
       </ThemedView>
       <ScrollView style={styles.scrollView}>
         {isLoading && (
-          <ThemedView style={styles.newsItem}>
+          <ThemedView style={styles.newsArticles}>
             <ThemedText style={styles.newsHeader}>Loading news...</ThemedText>
           </ThemedView>
         )}
         {loadError && (
-          <ThemedView style={styles.newsItem}>
+          <ThemedView style={styles.newsArticles}>
             <ThemedText style={[styles.newsHeader, { color: "#d32f2f" }]}>
               An error occurred trying to load the news. {"\n"}
               Details: {loadError}
             </ThemedText>
           </ThemedView>
         )}
-        {!isLoading && !loadError && newsItems.length === 0 && (
-          <ThemedView style={styles.newsItem}>
+        {!isLoading && !loadError && newsArticles.length === 0 && (
+          <ThemedView style={styles.newsArticles}>
             <ThemedText style={styles.newsHeader}>
               No news items found
             </ThemedText>
           </ThemedView>
         )}
-        {newsItems.map && newsItems.map((item: NewsItem, index : number ) => (
+        {newsArticles.map && newsArticles.map((item: NewsArticle, index : number ) => (
           <TouchableOpacity key={index} onPress={() => openLink(item.link)}>
-            <ThemedView style={styles.newsItem}>
+            <ThemedView style={styles.newsArticles}>
               <ThemedText style={styles.newsHeader}>{item.title}</ThemedText>
               {item.description && (
                 <ThemedText style={styles.newsDescription} numberOfLines={2}>
@@ -197,7 +194,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  newsItem: {
+  newsArticles: {
     padding: 16,
     marginBottom: 12,
     backgroundColor: "#f5f5f5",

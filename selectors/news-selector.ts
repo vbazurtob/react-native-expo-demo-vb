@@ -17,8 +17,21 @@
  *
  * By accessing this portfolio, you agree to abide by these terms.
  */
+import { createSelector } from "reselect";
 
+export const selectNewsSlice = (state: any) => state.news;
 
+export const selectNews = createSelector(
+  selectNewsSlice,
+  (state) => state.articles ?? [],
+);
 
-export const selectNews =
-    (state) => state.news.news ?? [];
+export const selectNewsLoading = createSelector(
+    selectNewsSlice,
+    (state) => state.isLoading,
+);
+
+export const selectNewsErrorLoading = createSelector(
+    selectNewsSlice,
+    (state) => state.errorLoad,
+);

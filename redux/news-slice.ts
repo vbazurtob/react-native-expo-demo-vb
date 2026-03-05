@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { NewsItem } from "@/app/(tabs)/news";
+import { NewsArticle } from "@/app/(tabs)/news";
 
 const newsOrigin = "https://www.whitehouse.gov/news/feed/";
 
 // Pure JavaScript RSS/XML parser using regex (no dependencies needed)
-function parseRSSFeed(rssText: string): NewsItem[] {
-  const items: NewsItem[] = [];
+function parseRSSFeed(rssText: string): NewsArticle[] {
+  const items: NewsArticle[] = [];
 
   // Match all <item> blocks in the RSS feed
   const itemRegex = /<item[^>]*>([\s\S]*?)<\/item>/gi;
@@ -60,16 +60,14 @@ const loadNews = createAsyncThunk(newsOrigin, async (arg) => {
 const newsSlice = createSlice({
   name: "news",
   initialState: {
-    news: [ {
-
-    }],
+    articles: ([] as NewsArticle[]),
     isLoading: false,
     errorLoad: '',
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadNews.pending, (state) => {
-      state.news = [];
+      state.articles = [];
       state.isLoading = true;
       state.errorLoad = '';
     });
@@ -78,7 +76,7 @@ const newsSlice = createSlice({
       state.errorLoad = 'Error loading'
     });
     builder.addCase(loadNews.fulfilled, (state, action) => {
-      state.news =  action.payload;
+      state.articles =  action.payload;
       state.isLoading = false;
       state.errorLoad = '';
     });
