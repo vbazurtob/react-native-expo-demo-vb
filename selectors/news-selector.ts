@@ -27,11 +27,11 @@ export const selectNews = createSelector(
 );
 
 export const selectNewsLoading = createSelector(
-    selectNewsSlice,
-    (state) => state.isLoading,
+  selectNewsSlice,
+  (state) => state.isLoading,
 );
 
 export const selectNewsErrorLoading = createSelector(
-    selectNewsSlice,
-    (state) => state.errorLoad,
+  selectNewsSlice,
+  (state) => state.errorLoad,
 );

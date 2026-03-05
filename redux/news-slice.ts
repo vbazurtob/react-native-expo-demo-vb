@@ -70,7 +70,7 @@ const loadNews = createAsyncThunk(newsOrigin, async (arg) => {
   const response = await fetch(newsOrigin);
   if (response.ok) {
     const rssText = await response.text();
-    return  parseRSSFeed(rssText);
+    return parseRSSFeed(rssText);
   } else {
     throw `Failed to load news. HTTP Error: ${response.status}`;
   }
@@ -79,25 +79,25 @@ const loadNews = createAsyncThunk(newsOrigin, async (arg) => {
 const newsSlice = createSlice({
   name: "news",
   initialState: {
-    articles: ([] as NewsArticle[]),
+    articles: [] as NewsArticle[],
     isLoading: false,
-    errorLoad: '',
+    errorLoad: "",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadNews.pending, (state) => {
       state.articles = [];
       state.isLoading = true;
-      state.errorLoad = '';
+      state.errorLoad = "";
     });
     builder.addCase(loadNews.rejected, (state, action) => {
       state.isLoading = false;
-      state.errorLoad = 'Error loading'
+      state.errorLoad = "Error loading";
     });
     builder.addCase(loadNews.fulfilled, (state, action) => {
-      state.articles =  action.payload;
+      state.articles = action.payload;
       state.isLoading = false;
-      state.errorLoad = '';
+      state.errorLoad = "";
     });
   },
 });
