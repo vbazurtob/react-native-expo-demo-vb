@@ -19,13 +19,22 @@
  */
 
 import { useEffect } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme,
+} from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import * as Linking from "expo-linking";
 import { useDispatch, useSelector } from "react-redux";
 import { loadNews } from "@/redux/news-slice";
-import {selectNews, selectNewsErrorLoading, selectNewsLoading} from "@/selectors/news-selector";
+import {
+  selectNews,
+  selectNewsErrorLoading,
+  selectNewsLoading,
+} from "@/selectors/news-selector";
 
 export type NewsArticle = {
   title: string;
@@ -86,9 +95,9 @@ async function openLink(link: string) {
 }
 
 export default function NewsScreen() {
-  const newsArticles = useSelector(selectNews) ;
-  const isLoading = useSelector(selectNewsLoading)
-  const loadError = useSelector(selectNewsErrorLoading)
+  const newsArticles = useSelector(selectNews);
+  const isLoading = useSelector(selectNewsLoading);
+  const loadError = useSelector(selectNewsErrorLoading);
   const dispatch = useDispatch();
 
   const loadNewsUI = () => {
@@ -99,11 +108,26 @@ export default function NewsScreen() {
   useEffect(() => {
     loadNewsUI();
   }, []);
+  const colorScheme = useColorScheme();
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedView style={styles.header}>
-        <ThemedText style={styles.headerTitle}>News</ThemedText>
+      <ThemedView
+        style={[
+          styles.header,
+          { borderBottomColor: colorScheme === "dark" ? "black" : "#e0e0e0" },
+        ]}
+      >
+        <ThemedText
+          style={[
+            styles.headerTitle,
+            {
+              color: colorScheme === "dark" ? "white" : "black",
+            },
+          ]}
+        >
+          News
+        </ThemedText>
         <TouchableOpacity
           style={styles.reloadButton}
           onPress={loadNewsUI}
@@ -135,23 +159,24 @@ export default function NewsScreen() {
             </ThemedText>
           </ThemedView>
         )}
-        {newsArticles.map && newsArticles.map((item: NewsArticle, index : number ) => (
-          <TouchableOpacity key={index} onPress={() => openLink(item.link)}>
-            <ThemedView style={styles.newsArticles}>
-              <ThemedText style={styles.newsHeader}>{item.title}</ThemedText>
-              {item.description && (
-                <ThemedText style={styles.newsDescription} numberOfLines={2}>
-                  {item.description}
-                </ThemedText>
-              )}
-              {item.pubDate && (
-                <ThemedText style={styles.newsDate}>
-                  {formatDate(item.pubDate)}
-                </ThemedText>
-              )}
-            </ThemedView>
-          </TouchableOpacity>
-        ))}
+        {newsArticles.map &&
+          newsArticles.map((item: NewsArticle, index: number) => (
+            <TouchableOpacity key={index} onPress={() => openLink(item.link)}>
+              <ThemedView style={styles.newsArticles}>
+                <ThemedText style={styles.newsHeader}>{item.title}</ThemedText>
+                {item.description && (
+                  <ThemedText style={styles.newsDescription} numberOfLines={2}>
+                    {item.description}
+                  </ThemedText>
+                )}
+                {item.pubDate && (
+                  <ThemedText style={styles.newsDate}>
+                    {formatDate(item.pubDate)}
+                  </ThemedText>
+                )}
+              </ThemedView>
+            </TouchableOpacity>
+          ))}
       </ScrollView>
     </ThemedView>
   );
@@ -168,9 +193,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     paddingTop: 60,
-    backgroundColor: "#f8f9fa",
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
   },
   headerTitle: {
     fontSize: 28,
