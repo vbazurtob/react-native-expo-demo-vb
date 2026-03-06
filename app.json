@@ -7,7 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "reactnativeexpodemovb",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -25,7 +24,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.bazurtov87ex.reactnativeexpodemovb"
     },
     "web": {
